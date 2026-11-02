@@ -1,0 +1,170 @@
+/* ============================================
+   SkillTrack — Custom styles & animations
+   Catatan: utilitas Tailwind dipakai via Play CDN
+   di index.html. File ini memuat style tambahan
+   yang sulit diekspresikan sebagai utilitas.
+   ============================================ */
+
+:root {
+  --navy: #071627;
+  --primary: #2955f5;
+  --primary-light: #4e74ff;
+  --ink: #e7effb;
+  --muted: #8fa4bd;
+}
+
+html,
+body {
+  /* Cegah horizontal scrolling pada semua ukuran layar */
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* ---------- Animasi fade-in hero (staggered via --fd) ---------- */
+.hero-fade {
+  opacity: 0;
+  transform: translateY(14px);
+  animation: heroFade 0.8s ease-out forwards;
+  animation-delay: var(--fd, 0ms);
+  will-change: opacity, transform;
+}
+
+@keyframes heroFade {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Hormati preferensi pengguna yang mengurangi animasi */
+@media (prefers-reduced-motion: reduce) {
+  .hero-fade {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .feat-fade {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .scroll-hint svg {
+    animation: none;
+  }
+
+  .abt-card-float,
+  .abt-card-main {
+    animation: none !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ---------- Glow tipis pada tombol download ---------- */
+.btn-glow {
+  box-shadow: 0 0 24px rgba(41, 85, 245, 0.35), 0 4px 14px rgba(0, 0, 0, 0.25);
+}
+
+.btn-glow:hover {
+  box-shadow: 0 0 34px rgba(78, 116, 255, 0.45), 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+/* ---------- Underline halus pada menu desktop ---------- */
+.nav-link {
+  position: relative;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* ---------- Scroll indicator: animasi chevron ringan ---------- */
+.scroll-hint svg {
+  animation: hintBounce 1.8s ease-in-out infinite;
+}
+
+@keyframes hintBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translateY(4px);
+    opacity: 1;
+  }
+}
+
+/* ---------- Features Section: fade-in saat mulai terlihat ---------- */
+/* Animasi dipicu saat elemen masuk area layar (class feat-visible ditambahkan JS). */
+.feat-fade {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.6s ease-out var(--fd, 0ms),
+    transform 0.6s ease-out var(--fd, 0ms);
+  will-change: opacity, transform;
+}
+
+.feat-fade.feat-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Fallback tanpa JS: elemen tetap terlihat */
+html:not(.js) .feat-fade {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- About Section: animasi halus visual kanan ---------- */
+.abt-card-main {
+  /* Rotasi disertakan di keyframes agar animasi translateY tidak menimpanya */
+  animation: abtLevitateRot 6s ease-in-out infinite;
+}
+
+.abt-card-float {
+  animation: abtLevitate 5s ease-in-out infinite;
+}
+
+@keyframes abtLevitateRot {
+  0%,
+  100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(-3deg) translateY(-8px);
+  }
+}
+
+.abt-float-1 {
+  animation-delay: 0.6s;
+}
+
+.abt-float-2 {
+  animation-delay: 1.2s;
+}
+
+.abt-float-3 {
+  animation-delay: 1.8s;
+}
+
+@keyframes abtLevitate {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Offset anchor agar konten tidak tertutup navbar fixed */
+:target {
+  scroll-margin-top: 5rem;
+}
