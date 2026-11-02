@@ -19,13 +19,14 @@
   function setMenu(open) {
     isOpen = open;
 
-    // Animasi tinggi menu: max-h-0 <-> max-h-96
+    // Animasi tinggi menu: max-h-0 <-> max-h-[28rem]
+    // (dinaikkan dari 24rem agar 7 menu + tombol Download tidak terpotong)
     if (open) {
       mobileMenu.classList.remove("invisible", "max-h-0");
-      mobileMenu.classList.add("max-h-96");
+      mobileMenu.classList.add("max-h-[28rem]");
     } else {
       mobileMenu.classList.add("invisible", "max-h-0");
-      mobileMenu.classList.remove("max-h-96");
+      mobileMenu.classList.remove("max-h-[28rem]");
     }
 
     // Ganti ikon hamburger <-> close
@@ -102,5 +103,43 @@
 
   featEls.forEach(function (el) {
     observer.observe(el);
+  });
+})();
+
+/* ============================================
+   FAQ Section — accordion
+   - Hanya satu pertanyaan yang terbuka pada satu waktu
+   - Default: pertanyaan pertama terbuka (class .open di HTML)
+   - Animasi buka/tutup via CSS (grid-template-rows)
+   ============================================ */
+(function () {
+  "use strict";
+
+  var faqItems = Array.prototype.slice.call(document.querySelectorAll(".faq-item"));
+  if (!faqItems.length) return;
+
+  function setOpen(item, open) {
+    item.classList.toggle("open", open);
+    var trigger = item.querySelector(".faq-trigger");
+    if (trigger) trigger.setAttribute("aria-expanded", String(open));
+  }
+
+  faqItems.forEach(function (item) {
+    var trigger = item.querySelector(".faq-trigger");
+    if (!trigger) return;
+
+    trigger.addEventListener("click", function () {
+      var wasOpen = item.classList.contains("open");
+
+      // Tutup semua item agar hanya satu yang terbuka
+      faqItems.forEach(function (other) {
+        setOpen(other, false);
+      });
+
+      // Buka item yang diklik (klik pada item terbuka menutupnya)
+      if (!wasOpen) {
+        setOpen(item, true);
+      }
+    });
   });
 })();

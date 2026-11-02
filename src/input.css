@@ -59,6 +59,10 @@ body {
     animation: none !important;
   }
 
+  .faq-answer {
+    transition: none;
+  }
+
   html {
     scroll-behavior: auto;
   }
@@ -162,6 +166,50 @@ html:not(.js) .feat-fade {
   50% {
     transform: translateY(-8px);
   }
+}
+
+/* ---------- FAQ Section: accordion halus ---------- */
+/* Jawaban dibungkus grid dengan tinggi 0fr <-> 1fr agar buka/tutup beranimasi
+   tanpa perlu tahu tinggi konten. Class .open ditambahkan/dihapus JS. */
+.faq-answer {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease;
+}
+
+.faq-item.open .faq-answer {
+  grid-template-rows: 1fr;
+}
+
+.faq-answer-inner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Ikon plus (tutup) dan minus (terbuka) */
+.faq-icon-minus {
+  display: none;
+}
+
+.faq-item.open .faq-icon-plus {
+  display: none;
+}
+
+.faq-item.open .faq-icon-minus {
+  display: block;
+}
+
+/* Fallback tanpa JS: semua jawaban tetap terlihat */
+html:not(.js) .faq-answer {
+  grid-template-rows: 1fr;
+}
+
+html:not(.js) .faq-icon-plus {
+  display: none;
+}
+
+html:not(.js) .faq-icon-minus {
+  display: block;
 }
 
 /* Offset anchor agar konten tidak tertutup navbar fixed */
