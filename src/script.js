@@ -1,9 +1,46 @@
 /* ============================================
    SkillTrack — Interaksi JavaScript Vanilla
+   - Konfigurasi link sosial media (Footer)
    - Toggle hamburger menu (mobile)
    - Tutup menu saat link diklik / resize ke desktop
    ============================================ */
 
+/* ============================================
+   KONFIGURASI SOSIAL MEDIA — cukup edit di sini
+   Dipakai oleh ikon Instagram & WhatsApp di Footer.
+   Ganti username / nomor WhatsApp / pesan otomatis
+   di objek di bawah, tidak perlu menyentuh HTML.
+   ============================================ */
+const SOCIAL_LINKS = {
+  instagram: "https://instagram.com/username_dummy",
+  whatsapp: "6281234567890",
+  whatsappMessage:
+    "Halo, saya ingin bertanya mengenai aplikasi SkillTrack.\n\nBoleh minta informasi lebih lanjut mengenai fitur dan cara menggunakan aplikasi SkillTrack? Terima kasih!",
+};
+
+/* Pasang link sosial media ke ikon Footer */
+(function () {
+  "use strict";
+
+  const instagramLink = document.getElementById("social-instagram");
+  const whatsappLink = document.getElementById("social-whatsapp");
+
+  if (instagramLink) {
+    instagramLink.href = SOCIAL_LINKS.instagram;
+  }
+
+  if (whatsappLink) {
+    // encodeURIComponent agar spasi, baris baru, dan karakter khusus aman di URL
+    const whatsappURL = `https://wa.me/${SOCIAL_LINKS.whatsapp}?text=${encodeURIComponent(
+      SOCIAL_LINKS.whatsappMessage
+    )}`;
+    whatsappLink.href = whatsappURL;
+  }
+})();
+
+/* ============================================
+   Navbar — hamburger menu mobile
+   ============================================ */
 (function () {
   "use strict";
 
